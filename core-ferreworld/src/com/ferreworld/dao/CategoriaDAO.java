@@ -124,9 +124,9 @@ public class CategoriaDAO {
 			
 			while(rs.next()){
 				Categoria cat = new Categoria();
-				cat.setId(rs.getInt(1));
-				cat.setNombre(rs.getString(2));
-				cat.setActivo((rs.getString(3)).equals("*")?false:true);
+				cat.setId(rs.getInt("id"));
+				cat.setNombre(rs.getString("nombre"));
+				cat.setActivo((rs.getString("activo")).equals("*")?false:true);
 				lista.add(cat);
 			}
 		} catch (SQLException e) {

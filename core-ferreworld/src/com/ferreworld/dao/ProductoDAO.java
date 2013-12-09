@@ -2,6 +2,7 @@ package com.ferreworld.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.ferreworld.model.Producto;
@@ -20,7 +21,8 @@ public class ProductoDAO {
 	
 	//Método insertar de producto
 	public Producto insertar(String nombre, String marca, Double ultimoCosto, 
-			Integer existencia, Boolean activo, Integer categoriaId){		//insertar un objeto en la BD
+			Integer existencia, Boolean activo, Integer categoriaId)
+	throws FerreDAOException{		//insertar un objeto en la BD
 		
 		Producto pro=null;
 		String sql="INSERT INTO PRODUCTO (nombre, marca, ultimo_costo, existencia,"
@@ -52,10 +54,18 @@ public class ProductoDAO {
 				//aqui esta esperando una categoria
 				CategoriaDAO catDAO = new CategoriaDAO(con);
 				pro.setCategoria(catDAO.buscar(categoriaId));
+				
+				//Recuperar el ID del Objeto que insertamos
+				String idsql = "SELECT max(ID) FROM PRODUCTO ";
+				ResultSet rs = st.executeQuery(idsql);
+				if(rs.next()){
+					pro.setId(rs.getInt(1));
+				}
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw new FerreDAOException("Error al insertar en ProductoDAO");
+			
 		}
 		
 		return pro;		
@@ -71,6 +81,31 @@ public class ProductoDAO {
 				st.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
+				throw new FerreDAOException("Error al Eliminar en ProductoDAO");
 			}			
 	}
+	
+//	public Producto actualizar(String nombre, String marca, Double ultimoCosto, 
+//			Integer existencia, Boolean activo, Integer categoriaId)
+//			throws FerreDAOException{
+//		
+//		String sql = "UPDATE PRODUCTO SET nombre = ?, marca = ? ,"
+//				+ " ultimocosto = ?, existencia = ?, activo = ?, categoriaid = ?";
+//				
+//		PreparedStatement st = con.prepareStatement(sql);
+//		st.setString(1, nombre);
+//		st.setString(2, marca);
+//		st.setDouble(3, ultimoCosto);
+//		st.setInt(4, existencia);
+//		
+//		
+//		
+//		
+//		if(st.executeUpdate() >= 1){
+//			Producto prod = new Producto();
+//			
+//			
+//		}
+//		
+//	}
 }
