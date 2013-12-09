@@ -12,20 +12,20 @@ public class Tester {
 	public static void main(String[] args) {
 		
 //		CategoriaDAO dao = new CategoriaDAO();
-//		Categoria myObj=dao.insertar("Computadoras",true);
+//		Categoria myObj=dao.insertar("Teclados",true);
 //		System.out.println(myObj);
 //		
 		
 		
 //		ProductoDAO daoo = new ProductoDAO();
-//		Categoria cate = new Categoria(1,"Computadoras",true);
-//		Producto myPro=daoo.insertar("Laptop", "Dell", 5.000, 25, true, cate);		
+//		Categoria cate = new Categoria(2,"Teclados",true);
+//		Producto myPro=daoo.insertar("Teclado escritorio", "Lenovo", 6.30, 105, true, cate);		
 //		System.out.println(myPro);
 		
 //		
-//		ClienteDAO daooo = new ClienteDAO();
-//		Cliente myClie=daooo.insertar("V-19594416-1", "Elier", "04127628002", true);
-//		System.out.println(myClie);
+		ClienteDAO daooo = new ClienteDAO();
+		Cliente myClie=daooo.insertar("V-19594416-1", "Elier", "04127628002", true);
+		System.out.println(myClie);
 //		
 //		
 		//Eliminar Categoria
