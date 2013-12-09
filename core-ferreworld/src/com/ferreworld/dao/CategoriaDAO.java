@@ -7,61 +7,72 @@ import java.sql.SQLException;
 
 import com.ferreworld.model.Categoria;
 
-/**
- * Contiene los metodos de persitencia para las Categorias
- * @author Kelwin
- *
- */
 public class CategoriaDAO {
-	private Connection con;
-	
-	public CategoriaDAO(){
-		super();
-		this.openConnection();
-	}
-	public void openConnection(){
-		try {
-			con = DriverManager.getConnection("jdbc:mysql:localhost:3306/academiabd",
-					"admin","admin");
-		} catch (SQLException e) {
-			e.printStackTrace();
+	//Contiene los metodos de persistencia para las Categorias
+		
+		private Connection con;
+		
+				
+		public CategoriaDAO() {
+			super();
+			this.openConnection();//cuando instanciamos el objeto tenemos la conexion creada
 		}
-	}
-	
-	public void closeConnection(){
-		if(con != null){
+		//metodo para abrir la conexion
+		public void openConnection(){
 			try {
-				con.close();
+				con=DriverManager.
+				getConnection("jdbc:mysql://localhost:3306/academiabd","admin", "admin");
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-	public Categoria insertar(String nombre, Boolean activo){
-		String sql = "INSERT INTO categoria (nombre, activo) VALUES ?,? ";
-		PreparedStatement st = null;
-		Categoria cat = null;
+		//metodo para cerrar la conexion
+		public void closeConnection(){
+			if(con!=null){
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+	
+	public Categoria insertar(String nombre, Boolean activo){		//insertar un objeto en la BD
 		
+		Categoria cat=null;
+		String sql="INSERT INTO CATEGORIA (nombre, activo) VALUES (?,?) ";
+		PreparedStatement st=null;
 		try {
-			st = con.prepareStatement(sql);
-			String myActivo = (activo)?"A":"*";
-			
-			st.setString(1, nombre);
+			st=con.prepareStatement(sql);
+			st.setString(1, nombre);//se setean los valores en el preparedStatement segun
+											// el tipo definido en la BD
+			String myActivo=(activo) ? "A" : "*";//Si activo es true se asigna A sino *		
 			st.setString(2, myActivo);
-			
-			int rows = st.executeUpdate(); //ingresando en la BD
-			if(rows == 1){
-				cat = new Categoria();
+			int rows = st.executeUpdate();
+			if(rows >= 1 ){
+				cat=new Categoria();
 				cat.setNombre(nombre);
 				cat.setActivo(activo);
 			}
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}								//se settean los valores en el 
-										//preparedStatement segun el TIPO
-										//definido en la Base de Datos
-		return cat;
+		}
+		
+	    return cat;	
 	}
-
+	
+	public void eliminar(Integer id){
+		String sql="UPDATE CATEGORIA SET activo = '*' WHERE CATEGORIA.id = ?";
+		PreparedStatement st=null;
+		
+			try {
+				st=con.prepareStatement(sql);
+				st.setInt(1, id);
+				st.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+	}
+	
 }
