@@ -1,11 +1,9 @@
 package com.ferreworld.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import com.ferreworld.model.Categoria;
 import com.ferreworld.model.Producto;
 
 public class ProductoDAO {
@@ -14,35 +12,19 @@ public class ProductoDAO {
 		
 	public ProductoDAO() {
 		super();
-		this.openConnection();//cuando instanciamos el objeto tenemos la conexion creada
 	}
-	//metodo para abrir la conexion
-	public void openConnection(){
-		try {
-			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/academiabd",
-					"admin", "admin");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	public ProductoDAO(Connection con){
+		this.con = con;
 	}
-	//metodo para cerrar la conexion
-	public void closeConnection(){
-		if(con!=null){
-			try {
-				con.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-	}
-	//metodo insertar de producto
-	public Producto insertar(String nombre, String marca, Double ultimoCosto, Integer existencia, Boolean activo, Categoria cat){		//insertar un objeto en la BD
+	
+	//Método insertar de producto
+	public Producto insertar(String nombre, String marca, Double ultimoCosto, 
+			Integer existencia, Boolean activo, Integer categoriaId){		//insertar un objeto en la BD
 		
 		Producto pro=null;
-		String sql="INSERT INTO PRODUCTO (nombre, marca, ultimo_costo, existencia, activo, categoria_id) VALUES (?,?,?,?,?,?) ";
+		String sql="INSERT INTO PRODUCTO (nombre, marca, ultimo_costo, existencia,"
+				+ " activo, categoria_id) VALUES (?,?,?,?,?,?) ";
 		PreparedStatement st=null;
 		try {
 			st=con.prepareStatement(sql);
@@ -53,8 +35,12 @@ public class ProductoDAO {
 			st.setInt(4, existencia);
 			String myActivo=(activo) ? "A" : "*";//Si activo es true se asigna A sino *		
 			st.setString(5, myActivo);
-			st.setInt(6, cat.getId());
+			
+			st.setInt(6, categoriaId);//obteniendo el id
+			
+					
 			int rows =st.executeUpdate();
+			
 			if(rows >= 1 ){
 				pro=new Producto();
 				pro.setNombre(nombre);
@@ -62,8 +48,10 @@ public class ProductoDAO {
 				pro.setExistencia(existencia);
 				pro.setActivo(activo);
 				pro.setUltimoCosto(ultimoCosto);			
+				
 				//aqui esta esperando una categoria
-				pro.setCategoria(cat);
+				CategoriaDAO catDAO = new CategoriaDAO(con);
+				pro.setCategoria(catDAO.buscar(categoriaId));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -2,4 +2,5 @@ SELECT * FROM PRODUCTO;
 
 SELECT * FROM CATEGORIA;
 
-SELECT 
+UPDATE CATEGORIA SET nombre = 'Plomeria K' , activo ='A' "+
+					 " WHERE id = 1; 

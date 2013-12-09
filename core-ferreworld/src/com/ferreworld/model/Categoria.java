@@ -3,9 +3,9 @@ package com.ferreworld.model;
 public class Categoria {
 	private Integer id;
 	private String nombre;
-	private boolean activo;
+	private Boolean activo;
 	
-	public Categoria(Integer id, String nombre, boolean activo) {
+	public Categoria(Integer id, String nombre, Boolean activo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -27,10 +27,10 @@ public class Categoria {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public boolean isActivo() {
+	public Boolean isActivo() {
 		return activo;
 	}
-	public void setActivo(boolean activo) {
+	public void setActivo(Boolean activo) {
 		this.activo = activo;
 	} 
 	
@@ -39,6 +39,7 @@ public class Categoria {
 		// TODO Auto-generated method stub
 		return "ID:"+id+" - Nombre: "+ nombre + " Activa: "+activo;
 	}
+	
 	
 
 }
