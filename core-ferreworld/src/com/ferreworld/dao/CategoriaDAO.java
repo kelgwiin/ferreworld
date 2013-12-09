@@ -15,29 +15,20 @@ public class CategoriaDAO {
 				
 		public CategoriaDAO() {
 			super();
-			this.openConnection();//cuando instanciamos el objeto tenemos la conexion creada
 		}
-		//metodo para abrir la conexion
-		public void openConnection(){
-			try {
-				con=DriverManager.
-				getConnection("jdbc:mysql://localhost:3306/academiabd","admin", "admin");
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		//metodo para cerrar la conexion
-		public void closeConnection(){
-			if(con!=null){
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			
+		
+		public CategoriaDAO(Connection con){
+			this.con = con;
 		}
 	
+	public Connection getConnection() {
+			return con;
+		}
+
+		public void setConnection(Connection con) {
+			this.con = con;
+		}
+
 	public Categoria insertar(String nombre, Boolean activo){		//insertar un objeto en la BD
 		
 		Categoria cat=null;

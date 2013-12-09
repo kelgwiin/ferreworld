@@ -34,5 +34,11 @@ public class Categoria {
 		this.activo = activo;
 	} 
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "ID:"+id+" - Nombre: "+ nombre + " Activa: "+activo;
+	}
+	
 
 }

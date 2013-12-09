@@ -1,5 +1,8 @@
 package com.ferreworld.dao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import com.ferreworld.model.Categoria;
 import com.ferreworld.model.Cliente;
 import com.ferreworld.model.Producto;
@@ -10,11 +13,20 @@ public class Tester {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		DBConnector dbcon = new DBConnector();
+		Connection con = null;
+		try {
+			con = dbcon.openConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-//		CategoriaDAO dao = new CategoriaDAO();
-//		Categoria myObj=dao.insertar("Teclados",true);
-//		System.out.println(myObj);
-//		
+		CategoriaDAO dao = new CategoriaDAO(con);
+		Categoria myObj=dao.insertar("Plomeria",true);
+		System.out.println(myObj);
+		
+		dbcon.closeConnection();
 		
 		
 //		ProductoDAO daoo = new ProductoDAO();
