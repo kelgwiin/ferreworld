@@ -46,6 +46,11 @@ public class Cliente {
 		this.activo = activo;
 	}
 	
+	@Override
+	public String toString() {
+		return "ID: "+id + " : " +rifCi+ " : "+nombreRazon+ 
+		" : "+telefono + " : "+activo;
+	}
 	
 
 }

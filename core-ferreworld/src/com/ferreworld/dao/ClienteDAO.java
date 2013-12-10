@@ -1,8 +1,12 @@
 package com.ferreworld.dao;
 
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ferreworld.model.Cliente;
 import com.ferreworld.model.Producto;
@@ -11,6 +15,11 @@ public class ClienteDAO extends BaseDAO{
 	
 	public ClienteDAO() {
 		super();
+	}
+	
+	public ClienteDAO(Connection con){
+		super();
+		this.con = con; 
 	}
 
 	public Cliente insertar(String rifCi, String nombreRazon, String telefono, Boolean activo){		//insertar un objeto en la BD
@@ -56,39 +65,96 @@ public class ClienteDAO extends BaseDAO{
 			}			
 	}
 	
-	
-	
-	public void actualizar(){
-		Producto p=null;
-		String sql="UPDATE PRODUCTO SET nombre = ?, marca = ?," +
-						" ultimo_costo = ?, existencia = ?, " +
-						"activo = ?, categoria_id = ? WHERE id = ?";
+	public Cliente actualizar(Integer id, String rifCi, String nombreRazon,
+			String telefono, Boolean activo){
+		
+		Cliente c=null;
+		String sql="UPDATE CLIENTE SET rif_ci = ?, nombre_razon = ?," +
+						" telefono = ?, activo = ? "
+						+ " WHERE id = ? ";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
-			st.setString(1, nombre);
-			st.setString(2, marca);
-			st.setDouble(3, ultimoCosto);
-			st.setInt(4, existencia);
-			st.setString(5, (activo)?"A":"*" );
-			st.setInt(6, categoriaID);
-			st.setInt(7, id);
+			st.setString(1, rifCi);
+			st.setString(2, nombreRazon);
+			st.setString(3, telefono);
+			st.setString(4, (activo)?"A":"*");
+			st.setInt(5, id);
+			
 			if(st.executeUpdate()>=1){
-				p= new Producto();
-				p.setId(id);
-				p.setNombre(nombre);
-				p.setMarca(marca);
-				p.setActivo(activo);
-				p.setUltimoCosto(ultimoCosto);
-				p.setExistencia(existencia);
-				p.setCategoria(new CategoriaDAO(con).buscar(categoriaID));
+				c= new Cliente();
+				c.setRifCi(rifCi);
+				c.setNombreRazon(nombreRazon);
+				c.setTelefono(telefono);
+				c.setActivo(activo);
+				c.setId(id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FerreDAOException("Error al actualizar CLiente");
+		}
+		return c;
+	}
+	
+	public Cliente actualizar(Cliente c){
+		return actualizar(c.getId(), c.getRifCi(), c.getNombreRazon(), 
+				c.getTelefono(),c.getActivo());
+	}
+	
+	public List<Cliente> Listar(String sql, Object[] params){
+		List<Cliente> lista = new ArrayList<Cliente>();
+		try {
+			ResultSet rs=null;
+			
+			PreparedStatement st= con.prepareStatement(sql);
+			for (int i = 0; params!= null && i < params.length; i++) {
+				st.setObject(i+1, params[i]);
+			}
+			rs= st.executeQuery();
+			
+			while (rs.next()){
+				Cliente c = new Cliente();
+				c.setId(rs.getInt("id"));
+				c.setActivo(rs.getString("activo").equals("A")?true:false);
+				c.setNombreRazon(rs.getString("nombre_razon"));
+				c.setRifCi(rs.getString("rif_ci"));
+				c.setTelefono(rs.getString("telefono"));
+				lista.add(c);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return p;
-		
+		return lista;
 	}
 	
+	public List<Cliente> listar(){
+		return Listar("SELECT * FROM CLIENTE ", null);
+	}
+	
+	public Cliente buscar(String sql, Object[] params){
+		Cliente c=null;
+		ResultSet rs=null;
+		try {
+			PreparedStatement st= con.prepareStatement(sql);
+			for (int i = 0; i < params.length; i++) {
+				st.setObject(i+1, params[i]);
+			}
+			
+			rs = st.executeQuery();
+			if(rs.next()){
+				c = new Cliente();
+				c.setId(rs.getInt("id"));
+				c.setActivo(rs.getString("activo").equals("A")?true:false);
+				c.setNombreRazon(rs.getString("nombre_razon"));
+				c.setRifCi(rs.getString("rif_ci"));
+				c.setTelefono(rs.getString("telefono"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new FerreDAOException("Error buscar");
+		}
+		
+		return c;
+	}
 	
 
 }
