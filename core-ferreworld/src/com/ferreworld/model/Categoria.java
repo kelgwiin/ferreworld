@@ -1,20 +1,27 @@
 package com.ferreworld.model;
 
 public class Categoria {
+	
 	private Integer id;
 	private String nombre;
 	private Boolean activo;
 	
+	
+	
+	public Categoria() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public Categoria(Integer id) {
+		super();
+		this.id = id;
+	}
 	public Categoria(Integer id, String nombre, Boolean activo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.activo = activo;
 	}
-	
-	public Categoria(){
-	}
-	
 	public Integer getId() {
 		return id;
 	}
@@ -27,18 +34,19 @@ public class Categoria {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public Boolean isActivo() {
+	public Boolean getActivo() {
 		return activo;
 	}
 	public void setActivo(Boolean activo) {
 		this.activo = activo;
-	} 
-	
+	}
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "ID:"+id+" - Nombre: "+ nombre + " Activa: "+activo;
+		
+		return "ID: "+id+ " - Nombre: "+ nombre +", Activa: "+ activo;
 	}
+	
+	
 	
 	
 

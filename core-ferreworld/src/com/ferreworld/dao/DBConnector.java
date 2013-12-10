@@ -6,62 +6,51 @@ import java.sql.SQLException;
 
 public class DBConnector {
 	
-	static final String URL = "jdbc:mysql://localhost:3306/academiabd";
-	static final String USER = "admin";
-	static final String PASS = "admin";
+	static final String URL="jdbc:mysql://localhost:3306/academiabd";
+	static final String USER="root";
+	static final String PASSWD="";
 	
 	private String url;
 	private String user;
-	private String pass;
+	private String password;
 	
-	private Connection con;
+	Connection con;
 	
-	public DBConnector() {
+	public DBConnector(){
 		setUrl(URL);
 		setUser(USER);
-		setPass(PASS);
-	}
-
-	//metodo para abrir la conexion
-	public Connection openConnection() throws SQLException{
-		con = null;
-			con=DriverManager.
-			getConnection( getUrl(),getUser(), getPass());
-		return con;
+		setPassword(PASSWD);
 	}
 	
-	//metodo para cerrar la conexion
-	public void closeConnection(){
-		if(con!=null){
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	public String getUrl() {
 		return url;
 	}
-
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 	public String getUser() {
 		return user;
 	}
-
 	public void setUser(String user) {
 		this.user = user;
 	}
-
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public Connection openConnection()throws SQLException{
+		con= DriverManager.getConnection(getUrl(), 
+								getUser(), getPassword());
+		return con;
 	}
-
+	
+	public void closeConnection() throws SQLException{
+		if(con!= null){
+			con.close();
+		}
+	}
+	
 }
