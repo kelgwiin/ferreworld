@@ -36,7 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<td> <a href = "#">Maestro Productos</a></td>
 			</tr>
 			<tr>  
-				<td> <a href = "categ/listar">Maestro Categorias</a></td>
+				<td> <a href = "categ/opciones-cat.jsp">Maestro Categorias</a></td>
 			</tr>
 			<tr> 
 				<td> <a href = "#">Maestro Clientes</a></td>

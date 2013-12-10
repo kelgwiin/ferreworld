@@ -49,6 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"
 	</table>
 	
 	<a href = "/fwapp">Inicio</a>
+	<a href = "/fwapp/opciones-cat.jsp">Atras</a>
 	
 
 </body>

@@ -7,9 +7,10 @@
 <title>Maestro de Categorias</title>
 </head>
 <body>
+<h1>Maestro de Categorias</h1>
 	<ul>
-		<li><a href = "categ/listar"></a>Listar</li>
-		<li><a href = "categ/listar"></a>Listar</li>
+		<li><a href = "categ/listar">Listar</a></li>
+		<li><a href = "categ/insertar">Insertar</a></li>
 		
 	</ul>
 	
