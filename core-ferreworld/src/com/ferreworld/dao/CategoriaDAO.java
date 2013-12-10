@@ -13,9 +13,6 @@ import com.ferreworld.model.Categoria;
 
 public class CategoriaDAO extends BaseDAO{
 	
-	
-	
-	
 	public CategoriaDAO() {
 		super();
 		
@@ -23,19 +20,20 @@ public class CategoriaDAO extends BaseDAO{
 	
 	public CategoriaDAO(Connection newConn){
 		super();
+		con = newConn;
 		
 	}
 	
 	//Contiene los metodos de persistencia para las Categorias
 	public Categoria insertar(String nombre, Boolean activo){
-		String sql="INSERT INTO Categoria (nombre, activo) VALUES (?,?) ";
+		String sql="INSERT INTO CATEGORIA (nombre, activo) VALUES (?,?) ";
 		PreparedStatement st= null;
 		Categoria cat=null;
 		
 		try {
 			st= con.prepareStatement(sql);
 			st.setString(1, nombre);    //se settean los valores en el
-			                            //preparedStatement según el TIPO 
+			                            //preparedStatement segï¿½n el TIPO 
 										//definido en la Base de Datos
 			
 			String myActivo= (activo) ? "A" : "*";
@@ -47,7 +45,7 @@ public class CategoriaDAO extends BaseDAO{
 				cat.setNombre(nombre);
 				cat.setActivo(activo);
 				//recuperar el ID del objeto que insertamos
-				String idsql="SELECT max(ID) FROM categoria";
+				String idsql="SELECT max(ID) FROM CATEGORIA";
 				ResultSet rs= st.executeQuery(idsql);
 				if(rs.next()){
 					cat.setId(rs.getInt(1));
@@ -65,7 +63,7 @@ public class CategoriaDAO extends BaseDAO{
 	
 	public Categoria actualizar(Integer id, String nombre, Boolean activo){
 		Categoria cat=null;
-		String sql="UPDATE Categoria SET nombre = ?, activo = ? WHERE id = ?";
+		String sql="UPDATE CATEGORIA SET nombre = ?, activo = ? WHERE id = ?";
 		try {
 			PreparedStatement st = con.prepareStatement(sql);
 			st.setString(1, nombre);
@@ -85,7 +83,7 @@ public class CategoriaDAO extends BaseDAO{
 	
 	public List<Categoria> listar(Boolean activa){
 		
-		String sql="SELECT id, nombre, activo FROM categoria WHERE activo = ?";
+		String sql="SELECT id, nombre, activo FROM CATEGORIA WHERE activo = ?";
 		Object[] pars= {(activa)?"A":"*"};
 		return listar(sql, pars);
 		
@@ -154,7 +152,7 @@ public class CategoriaDAO extends BaseDAO{
 	}
 	
 	public Categoria buscar(Integer id){
-		String sql="SELECT id, nombre, activo FROM categoria WHERE id= ?";
+		String sql="SELECT id, nombre, activo FROM CATEGORIA WHERE id= ?";
 		Object[] param={id};
 		return  buscar(sql, param);
 	}
@@ -169,7 +167,6 @@ public class CategoriaDAO extends BaseDAO{
 	     return  	actualizar(upCat.getId(), upCat.getNombre(),
 	    		 						upCat.getActivo());
 	}
-
 	
 	
 	

@@ -45,7 +45,7 @@ public class CategoriaServer {
     }   
     
     public List<Categoria> findCategoriaLikeNombre(String nomb){
-    	String sql="SELECT * FROM Categoria WHERE nombre like ? ";
+    	String sql="SELECT * FROM CATEGORIA WHERE nombre like ? ";
     	Object[] par= {nomb};
     	return dao.listar(sql, par);
     }

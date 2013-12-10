@@ -28,7 +28,7 @@ public class ProductoDAO extends BaseDAO{
 								Integer existencia, Boolean activo, 
 								Integer categoriaID) throws FerreDAOException{
 		Producto p= null;
-		String sql="INSERT INTO Producto (nombre, marca, ultimo_costo," +
+		String sql="INSERT INTO PRODUCTO (nombre, marca, ultimo_costo," +
 				" existencia, activo, categoria_id) VALUES (?,?,?,?,?,?) ";
 		PreparedStatement st= null;
 		ResultSet rs= null;
@@ -53,7 +53,7 @@ public class ProductoDAO extends BaseDAO{
 				p.setExistencia(existencia);
 				p.setCategoria(new CategoriaDAO(con).buscar(categoriaID));
 				//recuperar el ID del objeto que insertamos
-				String idsql="SELECT max(ID) FROM producto";
+				String idsql="SELECT max(ID) FROM PRODUCTO";
 				rs=st.executeQuery(idsql);
 				if(rs.next()){
 					p.setId(rs.getInt(1));
@@ -81,7 +81,7 @@ public class ProductoDAO extends BaseDAO{
 							Double ultimoCosto, Integer existencia,
 							Boolean activo, Integer categoriaID){
 		Producto p=null;
-		String sql="UPDATE Producto SET nombre = ?, marca = ?," +
+		String sql="UPDATE PRODUCTO SET nombre = ?, marca = ?," +
 						" ultimo_costo = ?, existencia = ?, " +
 						"activo = ?, categoria_id = ? WHERE id = ?";
 		try {
@@ -179,7 +179,7 @@ public class ProductoDAO extends BaseDAO{
 	}
 	
 	public Producto buscar(Integer id){
-		String sql="SELECT * FROM producto WHERE id= ?";
+		String sql="SELECT * FROM PRODUCTO WHERE id= ?";
 		Object[] param={id};
 		return  buscar(sql, param);
 	}

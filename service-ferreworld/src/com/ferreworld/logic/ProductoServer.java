@@ -1,10 +1,13 @@
 package com.ferreworld.logic;
 
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.ferreworld.dao.CategoriaDAO;
 import com.ferreworld.dao.DBConnector;
 import com.ferreworld.dao.ProductoDAO;
+import com.ferreworld.model.Categoria;
 import com.ferreworld.model.Producto;
 
 public class ProductoServer {
@@ -48,23 +51,48 @@ public class ProductoServer {
     }
     
     public List<Producto> findProductoByActivo(Boolean activo){
-    	String sql="SELECT * FROM Producto WHERE activo = ?";
+    	String sql="SELECT * FROM PRODUCTO WHERE activo = ?";
     	Object[] params={(activo)?"A":"*"};
     	return dao.listar(sql,params);
     }   
     
     public List<Producto> findProductoLikeNombre(String nomb){
-    	String sql="SELECT * FROM Producto WHERE nombre like ? ";
+    	String sql="SELECT * FROM PRODUCTO WHERE nombre like ? ";
     	Object[] par= {nomb};
     	return dao.listar(sql, par);
     }
     
     public List<Producto> findProductoByActivoAndCategoria(Boolean activo, Integer idCat){
-    	String sql="SELECT * FROM Producto WHERE activo = ? AND categoria_id = ? ";
+    	String sql="SELECT * FROM PRODUCTO WHERE activo = ? AND categoria_id = ? ";
     	Object[] par= {(activo)?"A":"*", idCat};
     	return dao.listar(sql, par);
     }
 	
+    public  void anularCategoria(Integer idCategoria){
+    	String sql = "UPDATE PRODUCTO SET activo = ? WHERE "
+    			+ "categoria_id = ? ";
+    	CategoriaDAO daoCat=null;
+    	Categoria cat;
+    	
+    	try {
+			//desactivando categoria
+    		daoCat= new CategoriaDAO(new DBConnector().openConnection());
+			cat = daoCat.buscar(idCategoria);
+			cat.setActivo(false);
+			daoCat.actualizar(cat);
+			
+			//desactivar items
+			PreparedStatement st = daoCat.getCon().prepareStatement(sql);
+			st.setString(1, "*");
+			st.setInt(2, idCategoria);
+			st.execute();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	
+    }
 	
 
 }
