@@ -9,4 +9,16 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>ListadoCategoriaServlet</display-name>
+    <servlet-name>ListadoCategoriaServlet</servlet-name>
+    <servlet-class>com.ferreworld.controller.ListadoCategoriaServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListadoCategoriaServlet</servlet-name>
+    <url-pattern>/categ/listar</url-pattern>
+  </servlet-mapping>
+  
+  
 </web-app>

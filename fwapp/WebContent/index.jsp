@@ -7,8 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
-	<table width = "40%" border = "1" bfcolor = "gray" align = "center">
+	<h1>Sistema de Información FERREWORLD C.A.</h1>
+	<table width = "40%" border = "1" bfcolor = "gray" align = "center"
+	cellpadding = "10">
 	
 		<tbody  >
 			<tr> 
@@ -19,7 +20,7 @@
 				<td> <a href = "#">Maestro Productos</a></td>
 			</tr>
 			<tr>  
-				<td> <a href = "#">Maestro Categorias</a></td>
+				<td> <a href = "jsp/categ/list-categorias.jsp">Maestro Categorias</a></td>
 			</tr>
 			<tr> 
 				<td> <a href = "#">Maestro Clientes</a></td>

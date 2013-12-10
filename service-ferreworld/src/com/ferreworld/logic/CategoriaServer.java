@@ -1,5 +1,6 @@
 package com.ferreworld.logic;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class CategoriaServer {
 		}
 	}
 	
+	public CategoriaServer(Connection con){
+		dao = new CategoriaDAO(con);
+	}
 	public Categoria insertarCategoria(Categoria cat){
 		return dao.insertar(cat.getNombre(), cat.getActivo());
 	}
