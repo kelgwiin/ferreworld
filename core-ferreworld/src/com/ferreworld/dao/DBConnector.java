@@ -22,6 +22,12 @@ public class DBConnector {
 		setPassword(PASSWD);
 	}
 	
+	public DBConnector(String url, String password, String user){
+		this.url = url;
+		this.password = password;
+		this.user = user;
+	}
+	
 	public String getUrl() {
 		return url;
 	}

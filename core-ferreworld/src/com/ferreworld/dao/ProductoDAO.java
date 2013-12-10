@@ -12,6 +12,7 @@ import com.ferreworld.model.Producto;
 
 
 
+@SuppressWarnings("unused")
 public class ProductoDAO extends BaseDAO{
 
 	public ProductoDAO() {
@@ -107,6 +108,22 @@ public class ProductoDAO extends BaseDAO{
 			e.printStackTrace();
 		}
 		return p;
+	}
+	
+	public Integer actualizar(String sql, Object[] params){
+		PreparedStatement st = null;
+		Integer act = 0;
+		try {
+			st = con.prepareStatement(sql);
+			for (int i = 0; i < params.length; i++) {
+				st.setObject(i+1, params[i]);
+			}
+			
+			act = st.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return act;
 	}
 
 	public List<Producto> listar(String sql, Object[] params){

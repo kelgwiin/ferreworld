@@ -1,7 +1,7 @@
 package com.ferreworld.logic;
 
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ferreworld.dao.CategoriaDAO;
@@ -67,32 +67,67 @@ public class ProductoServer {
     	Object[] par= {(activo)?"A":"*", idCat};
     	return dao.listar(sql, par);
     }
-	
-    public  void anularCategoria(Integer idCategoria){
+	/**
+	 * Anula 
+	 * @param idCategoria
+	 * @return Una lista con el objeto categoria actualizado y una lista con 
+	 * los productos asociados
+	 */
+    public  List<Object> anularCategoria(Integer idCategoria){
     	String sql = "UPDATE PRODUCTO SET activo = ? WHERE "
     			+ "categoria_id = ? ";
     	CategoriaDAO daoCat=null;
     	Categoria cat;
+    	ArrayList<Object> catProdActualizado = new ArrayList<>(); 
     	
-    	try {
-			//desactivando categoria
-    		daoCat= new CategoriaDAO(new DBConnector().openConnection());
-			cat = daoCat.buscar(idCategoria);
-			cat.setActivo(false);
-			daoCat.actualizar(cat);
-			
-			//desactivar items
-			PreparedStatement st = daoCat.getCon().prepareStatement(sql);
-			st.setString(1, "*");
-			st.setInt(2, idCategoria);
-			st.execute();
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+    	//desactivando categoria
+		daoCat= new CategoriaDAO(dao.getCon());
+		cat = daoCat.buscar(idCategoria);
+		cat.setActivo(false);
+		catProdActualizado.add(cat);
+		daoCat.actualizar(cat);
+		
+		//desactivar items asociado a la categoria
+		Object[] par = {"*",idCategoria};
+		
+		if(dao.actualizar(sql, par) >= 1){
+			String sqlListar = "SELECT * FROM PRODUCTO WHERE categoria_id = ?";
+			par = new Object[1];
+			par[0] = idCategoria;
+			catProdActualizado.add(dao.listar(sqlListar, par));
 		}
-    	
+    	return catProdActualizado;
     }
-	
+    /**
+	 * Activa
+	 * @param idCategoria
+	 * @return Una lista con el objeto categoria actualizado y una lista con 
+	 * los productos asociados
+	 */
+    public  List<Object> activarCategoria(Integer idCategoria){
+    	String sql = "UPDATE PRODUCTO SET activo = ? WHERE "
+    			+ "categoria_id = ? ";
+    	CategoriaDAO daoCat=null;
+    	Categoria cat;
+    	ArrayList<Object> catProdActualizado = new ArrayList<>(); 
+    	
+    	//activando categoria
+		daoCat= new CategoriaDAO(dao.getCon());
+		cat = daoCat.buscar(idCategoria);
+		cat.setActivo(true);
+		catProdActualizado.add(cat);
+		daoCat.actualizar(cat);
+		
+		//activar items asociado a la categoria
+		Object[] par = {"A",idCategoria};
+		
+		if(dao.actualizar(sql, par)>= 1){
+			String sqlListar = "SELECT * FROM PRODUCTO WHERE categoria_id = ?";
+			par = new Object[1];
+			par[0] = idCategoria;
+			catProdActualizado.add(dao.listar(sqlListar, par));
+		}
+    	return catProdActualizado;
+    }	
 
 }

@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.ferreworld.model.Cliente;
+import com.ferreworld.model.Producto;
 
 public class ClienteDAO extends BaseDAO{
 	
@@ -53,6 +54,39 @@ public class ClienteDAO extends BaseDAO{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}			
+	}
+	
+	
+	
+	public void actualizar(){
+		Producto p=null;
+		String sql="UPDATE PRODUCTO SET nombre = ?, marca = ?," +
+						" ultimo_costo = ?, existencia = ?, " +
+						"activo = ?, categoria_id = ? WHERE id = ?";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, nombre);
+			st.setString(2, marca);
+			st.setDouble(3, ultimoCosto);
+			st.setInt(4, existencia);
+			st.setString(5, (activo)?"A":"*" );
+			st.setInt(6, categoriaID);
+			st.setInt(7, id);
+			if(st.executeUpdate()>=1){
+				p= new Producto();
+				p.setId(id);
+				p.setNombre(nombre);
+				p.setMarca(marca);
+				p.setActivo(activo);
+				p.setUltimoCosto(ultimoCosto);
+				p.setExistencia(existencia);
+				p.setCategoria(new CategoriaDAO(con).buscar(categoriaID));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return p;
+		
 	}
 	
 	

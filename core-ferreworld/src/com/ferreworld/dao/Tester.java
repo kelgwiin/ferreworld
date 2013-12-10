@@ -8,6 +8,7 @@ import java.util.List;
 import com.ferreworld.model.Categoria;
 import com.ferreworld.model.Producto;
 
+@SuppressWarnings("unused")
 public class Tester {
 
 	/**
