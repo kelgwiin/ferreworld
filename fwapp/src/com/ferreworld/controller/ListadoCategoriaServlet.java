@@ -39,14 +39,16 @@ public class ListadoCategoriaServlet extends HttpServlet {
 //		rd.forward(request, response);
 		
 		try {
-			con = new DBConnector().openConnection();
+			con = (new DBConnector()).openConnection();
 			CategoriaServer server = new CategoriaServer(con);
+			
 			List<Categoria> lista = server.findCategoriaByActivo(true);
+			
 			//Colcamos la lista disponible para los demas componentes web
 			request.setAttribute("lista", lista);
 			
 			RequestDispatcher rd = 
-					request.getRequestDispatcher("jsp/categ/list-categorias.jsp");
+					request.getRequestDispatcher("/jsp/categ/list-categorias.jsp");
 			rd.forward(request, response);
 			
 		} catch (SQLException e) {
@@ -58,7 +60,7 @@ public class ListadoCategoriaServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		doGet(request, response);
 	}
 
 }

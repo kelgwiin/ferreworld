@@ -18,9 +18,7 @@ public class CategoriaDAO extends BaseDAO{
 	}
 	
 	public CategoriaDAO(Connection newConn){
-		super();
-		con = newConn;
-		
+		super(newConn);
 	}
 	
 	//Contiene los metodos de persistencia para las Categorias
