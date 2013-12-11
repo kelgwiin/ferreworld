@@ -78,7 +78,7 @@ public class ProductoServer {
     			+ "categoria_id = ? ";
     	CategoriaDAO daoCat=null;
     	Categoria cat;
-    	ArrayList<Object> catProdActualizado = new ArrayList<>(); 
+    	ArrayList<Object> catProdActualizado = new ArrayList<Object>(); 
     	
     	//desactivando categoria
 		daoCat= new CategoriaDAO(dao.getCon());
@@ -109,7 +109,7 @@ public class ProductoServer {
     			+ "categoria_id = ? ";
     	CategoriaDAO daoCat=null;
     	Categoria cat;
-    	ArrayList<Object> catProdActualizado = new ArrayList<>(); 
+    	ArrayList<Object> catProdActualizado = new ArrayList<Object>(); 
     	
     	//activando categoria
 		daoCat= new CategoriaDAO(dao.getCon());
